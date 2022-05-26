@@ -1,0 +1,277 @@
+C51 COMPILER V9.00   ZF_GPIO                                                               05/18/2022 22:20:20 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE ZF_GPIO
+OBJECT MODULE PLACED IN .\Out_File\zf_gpio.obj
+COMPILER INVOKED BY: D:\Keil\Keil_5\C51\BIN\C51.EXE ..\..\Libraries\seekfree_libraries\zf_gpio.c LARGE OMF2 OPTIMIZE(8,S
+                    -PEED) BROWSE INCDIR(..\..\Libraries\libraries;..\..\Libraries\seekfree_libraries;..\..\Libraries\seekfree_peripheral;..\
+                    -USER\inc;..\USER\src;..\CODE) DEBUG PRINT(.\Out_File\zf_gpio.lst) TABS(2) OBJECT(.\Out_File\zf_gpio.obj)
+
+line level    source
+
+   1          /*********************************************************************************************************
+             -************
+   2           * COPYRIGHT NOTICE
+   3           * Copyright (c) 2020,逐飞科技
+   4           * All rights reserved.
+   5           * 技术讨论QQ群：一群：179029047(已满)  二群：244861897(已满)  三群：824575535
+   6           *
+   7           * 以下所有内容版权均属逐飞科技所有，未经允许不得用于商业用途，
+   8           * 欢迎各位使用并传播本程序，修改内容时必须保留逐飞科技的版权声明。
+   9           *
+  10           * @file          gpio
+  11           * @company       成都逐飞科技有限公司
+  12           * @author        逐飞科技(QQ790875685)
+  13           * @version       查看doc内version文件 版本说明
+  14           * @Software    MDK FOR C51 V9.60
+  15           * @Target core   STC8H8K64S4
+  16           * @Taobao      https://seekfree.taobao.com/
+  17           * @date          2020-4-14
+  18           *********************************************************************************************************
+             -***********/
+  19          
+  20          
+  21          #include "zf_gpio.h"
+  22          
+  23          
+  24          #define PxPU_BASE_ADDR  0xFE10 
+  25          
+  26          //--------------------------------------------------------------------------------------------------------
+             ------------
+  27          //  @brief      GPIO设置引脚上拉电阻设置
+  28          //  @param      pin         选择引脚（P0_0-P7_7）
+  29          //  @param      pull        设置上下拉电阻 NOPULL:不设置 PULLUP:上拉
+  30          //  @return     void
+  31          //  Sample usage:           gpio_pull_set(P0_0,NOPULL);       // 设置P0.0引脚没有上下拉电阻
+  32          //--------------------------------------------------------------------------------------------------------
+             ------------
+  33          void gpio_pull_set(PIN_enum pin, PULL_enum pull)
+  34          {
+  35   1        if(PULLUP == pull)
+  36   1        {
+  37   2          (*(unsigned char volatile xdata *)(PxPU_BASE_ADDR + (pin >> 4))) |= (1<<(pin&0x0F));
+  38   2        }
+  39   1        else if(NOPULL == pull)
+  40   1        {
+  41   2          (*(unsigned char volatile xdata *)(PxPU_BASE_ADDR + (pin >> 4))) &= ~(1<<(pin&0x0F));
+  42   2        }
+  43   1      }
+  44          
+  45          
+  46          
+  47          //--------------------------------------------------------------------------------------------------------
+             ------------
+  48          //  @brief      GPIO设置引脚模式
+C51 COMPILER V9.00   ZF_GPIO                                                               05/18/2022 22:20:20 PAGE 2   
+
+  49          //  @param      pin         选择引脚（P0_0-P5_4）
+  50          //  @param      mode        引脚模式 GPIO:准双向口, GPO_PP:推挽输出, GPI_IMPEDANCE:高阻输入, GPI_OD:开漏输
+             -出
+  51          //  @return     void
+  52          //  Sample usage:           gpio_mode(P0_0,GPIO);       // 设置P0.0设置为双向IO
+  53          //--------------------------------------------------------------------------------------------------------
+             ------------
+  54          void gpio_mode(PIN_enum pin, GPIOMODE_enum mode)
+  55          {
+  56   1        if(GPIO == mode)
+  57   1        {
+  58   2          if(0x00 == (pin&0xF0))  //P0
+  59   2          {
+  60   3            P0M1 &= ~(1<<(pin&0xF));
+  61   3            P0M0 &= ~(1<<(pin&0xF));
+  62   3          }
+  63   2          if(0x10 == (pin&0xF0))  //P1
+  64   2          {
+  65   3            P1M1 &= ~(1<<(pin&0xF));
+  66   3            P1M0 &= ~(1<<(pin&0xF));
+  67   3          }
+  68   2          if(0x20 == (pin&0xF0))  //P2
+  69   2          {
+  70   3            P2M1 &= ~(1<<(pin&0xF));
+  71   3            P2M0 &= ~(1<<(pin&0xF));
+  72   3          }
+  73   2          
+  74   2          if(0x30 == (pin&0xF0))  //P3
+  75   2          {
+  76   3            P3M1 &= ~(1<<(pin&0xF));
+  77   3            P3M0 &= ~(1<<(pin&0xF));
+  78   3          }
+  79   2          if(0x40 == (pin&0xF0))  //P4
+  80   2          {
+  81   3            P4M1 &= ~(1<<(pin&0xF));
+  82   3            P4M0 &= ~(1<<(pin&0xF));
+  83   3          }
+  84   2          if(0x50 == (pin&0xF0))  //P5
+  85   2          {
+  86   3            P5M1 &= ~(1<<(pin&0xF));
+  87   3            P5M0 &= ~(1<<(pin&0xF));
+  88   3          }
+  89   2              if(0x60 == (pin&0xF0))  //P6
+  90   2          {
+  91   3            P6M1 &= ~(1<<(pin&0xF));
+  92   3            P6M0 &= ~(1<<(pin&0xF));
+  93   3          }
+  94   2              if(0x70 == (pin&0xF0))  //P7
+  95   2          {
+  96   3            P7M1 &= ~(1<<(pin&0xF));
+  97   3            P7M0 &= ~(1<<(pin&0xF));
+  98   3          }
+  99   2        }
+ 100   1        else if(GPO_PP == mode)
+ 101   1        {
+ 102   2          if(0x00 == (pin&0xF0))  //P0
+ 103   2          {
+ 104   3            P0M1 &= ~(1<<(pin&0xF));
+ 105   3            P0M0 |=  (1<<(pin&0xF));
+ 106   3          }
+ 107   2          if(0x10 == (pin&0xF0))  //P1
+ 108   2          {
+C51 COMPILER V9.00   ZF_GPIO                                                               05/18/2022 22:20:20 PAGE 3   
+
+ 109   3            P1M1 &= ~(1<<(pin&0xF));
+ 110   3            P1M0 |=  (1<<(pin&0xF));
+ 111   3          }
+ 112   2          if(0x20 == (pin&0xF0))  //P2
+ 113   2          {
+ 114   3            P2M1 &= ~(1<<(pin&0xF));
+ 115   3            P2M0 |=  (1<<(pin&0xF));
+ 116   3          }
+ 117   2          
+ 118   2          if(0x30 == (pin&0xF0))  //P3
+ 119   2          {
+ 120   3            P3M1 &= ~(1<<(pin&0xF));
+ 121   3            P3M0 |=  (1<<(pin&0xF));
+ 122   3          }
+ 123   2          if(0x40 == (pin&0xF0))  //P4
+ 124   2          {
+ 125   3            P4M1 &= ~(1<<(pin&0xF));
+ 126   3            P4M0 |=  (1<<(pin&0xF));
+ 127   3          }
+ 128   2          if(0x50 == (pin&0xF0))  //P5
+ 129   2          {
+ 130   3            P5M1 &= ~(1<<(pin&0xF));
+ 131   3            P5M0 |=  (1<<(pin&0xF));
+ 132   3          }
+ 133   2              if(0x60 == (pin&0xF0))  //P6
+ 134   2          {
+ 135   3            P6M1 &= ~(1<<(pin&0xF));
+ 136   3            P6M0 |=  (1<<(pin&0xF));
+ 137   3          }
+ 138   2              if(0x70 == (pin&0xF0))  //P7
+ 139   2          {
+ 140   3            P7M1 &= ~(1<<(pin&0xF));
+ 141   3            P7M0 |=  (1<<(pin&0xF));
+ 142   3          }
+ 143   2        }
+ 144   1        else if(GPI_IMPEDANCE == mode)
+ 145   1        {
+ 146   2          if(0x00 == (pin&0xF0))  //P0
+ 147   2          {
+ 148   3            P0M1 |=  (1<<(pin&0xF));
+ 149   3            P0M0 &= ~(1<<(pin&0xF));
+ 150   3          }
+ 151   2          if(0x10 == (pin&0xF0))  //P1
+ 152   2          {
+ 153   3            P1M1 |=  (1<<(pin&0xF));
+ 154   3            P1M0 &= ~(1<<(pin&0xF));
+ 155   3          }
+ 156   2          if(0x20 == (pin&0xF0))  //P2
+ 157   2          {
+ 158   3            P2M1 |=  (1<<(pin&0xF));
+ 159   3            P2M0 &= ~(1<<(pin&0xF));
+ 160   3          }
+ 161   2          
+ 162   2          if(0x30 == (pin&0xF0))  //P3
+ 163   2          {
+ 164   3            P3M1 |=  (1<<(pin&0xF));
+ 165   3            P3M0 &= ~(1<<(pin&0xF));
+ 166   3          }
+ 167   2          if(0x40 == (pin&0xF0))  //P4
+ 168   2          {
+ 169   3            P4M1 |=  (1<<(pin&0xF));
+ 170   3            P4M0 &= ~(1<<(pin&0xF));
+C51 COMPILER V9.00   ZF_GPIO                                                               05/18/2022 22:20:20 PAGE 4   
+
+ 171   3          }
+ 172   2          if(0x50 == (pin&0xF0))  //P5
+ 173   2          {
+ 174   3            P5M1 |=  (1<<(pin&0xF));
+ 175   3            P5M0 &= ~(1<<(pin&0xF));
+ 176   3          }
+ 177   2              if(0x60 == (pin&0xF0))  //P5
+ 178   2          {
+ 179   3            P6M1 |=  (1<<(pin&0xF));
+ 180   3            P6M0 &= ~(1<<(pin&0xF));
+ 181   3          }
+ 182   2              if(0x70 == (pin&0xF0))  //P5
+ 183   2          {
+ 184   3            P7M1 |=  (1<<(pin&0xF));
+ 185   3            P7M0 &= ~(1<<(pin&0xF));
+ 186   3          }
+ 187   2        }
+ 188   1        else if(GPI_OD == mode)
+ 189   1        {
+ 190   2          if(0x00 == (pin&0xF0))  //P0
+ 191   2          {
+ 192   3            P0M1 |= (1<<(pin&0xF));
+ 193   3            P0M0 |= (1<<(pin&0xF));
+ 194   3          }
+ 195   2          if(0x10 == (pin&0xF0))  //P1
+ 196   2          {
+ 197   3            P1M1 |= (1<<(pin&0xF));
+ 198   3            P1M0 |= (1<<(pin&0xF));
+ 199   3          }
+ 200   2          if(0x20 == (pin&0xF0))  //P2
+ 201   2          {
+ 202   3            P2M1 |= (1<<(pin&0xF));
+ 203   3            P2M0 |= (1<<(pin&0xF));
+ 204   3          }
+ 205   2          
+ 206   2          if(0x30 == (pin&0xF0))  //P3
+ 207   2          {
+ 208   3            P3M1 |= (1<<(pin&0xF));
+ 209   3            P3M0 |= (1<<(pin&0xF));
+ 210   3          }
+ 211   2          if(0x40 == (pin&0xF0))  //P4
+ 212   2          {
+ 213   3            P4M1 |= (1<<(pin&0xF));
+ 214   3            P4M0 |= (1<<(pin&0xF));
+ 215   3          }
+ 216   2          if(0x50 == (pin&0xF0))  //P5
+ 217   2          {
+ 218   3            P5M1 |= (1<<(pin&0xF));
+ 219   3            P5M0 |= (1<<(pin&0xF));
+ 220   3          }
+ 221   2              if(0x60 == (pin&0xF0))  //P6
+ 222   2          {
+ 223   3            P6M1 |= (1<<(pin&0xF));
+ 224   3            P6M0 |= (1<<(pin&0xF));
+ 225   3          }
+ 226   2              if(0x70 == (pin&0xF0))  //P7
+ 227   2          {
+ 228   3            P7M1 |= (1<<(pin&0xF));
+ 229   3            P7M0 |= (1<<(pin&0xF));
+ 230   3          }
+ 231   2        }
+ 232   1      }
+C51 COMPILER V9.00   ZF_GPIO                                                               05/18/2022 22:20:20 PAGE 5   
+
+ 233          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    988    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "D:\\FILE\\2022.5\\STC8H8K64_Library-master_for_students\\Seekfree_STC8H8K64x_Opensource_Library\\Libraries\\libraries",
+                "D:\\FILE\\2022.5\\STC8H8K64_Library-master_for_students\\Seekfree_STC8H8K64x_Opensource_Library\\Libraries\\seekfree_libraries",
+                "D:\\FILE\\2022.5\\STC8H8K64_Library-master_for_students\\Seekfree_STC8H8K64x_Opensource_Library\\Libraries\\seekfree_peripheral"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "D:\\codeconfiguration\\mingw64\\bin\\gcc.exe",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
